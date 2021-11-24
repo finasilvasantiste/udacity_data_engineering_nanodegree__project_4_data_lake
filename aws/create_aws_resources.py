@@ -1,16 +1,13 @@
-from aws.RedshiftCluster import RedshiftCluster
+from aws.aws_cluster_types.EMRCluster import EMRCluster
 
 
-def create_aws_redshift_resources():
+def create_aws_resources():
     """
-    Creates all necessary aws redshift resources.
-    Prints out cluster details at the end.
+    Creates all necessary aws resources.
     :return:
     """
-    redshift_cluster = RedshiftCluster()
-    redshift_cluster.create_all_resources()
-    RedshiftCluster.describe_cluster()
-
+    emr_cluster = EMRCluster()
+    emr_cluster.create_resources()
 
 if __name__ == "__main__":
-    create_aws_redshift_resources()
+    create_aws_resources()

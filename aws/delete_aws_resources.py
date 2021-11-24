@@ -1,15 +1,14 @@
-# from aws.RedshiftCluster import RedshiftCluster
-#
-#
-# def delete_aws_redshift_resources():
-#     """
-#     Deletes all newly created aws redshift resources.
-#     :return:
-#     """
-#     redshift_cluster = RedshiftCluster()
-#     redshift_cluster.delete_all_resources()
+from aws.aws_cluster_types.EMRCluster import EMRCluster
+
+
+def delete_aws_resources():
+    """
+    Deletes all aws resources.
+    :return:
+    """
+    emr_cluster = EMRCluster()
+    emr_cluster.delete_resources()
 
 
 if __name__ == "__main__":
-    # delete_aws_redshift_resources()
-    pass
+    delete_aws_resources()

@@ -10,7 +10,7 @@ set of dimensional tables.
 # Setup
 
 ## Config file
-- Make a copy of the file `dwh.cfg.sample` and call it just `dwh.cfg`.
+- Make a copy of the file `dl.cfg.sample` and call it just `dl.cfg`.
 - Replace the empty/indicated values with your credentials, and leave the filled out values as they are. 
   Make sure not to use any quotation marks.
   

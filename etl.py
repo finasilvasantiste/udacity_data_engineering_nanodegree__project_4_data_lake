@@ -23,59 +23,59 @@ def create_spark_session():
 
 def process_song_data(spark, input_data, output_data):
     # get filepath to song data file
-    song_data = 
-    
+    song_data = None
+
     # read song data file
-    df = 
+    df = None
 
     # extract columns to create songs table
-    songs_table = 
-    
+    songs_table = None
+
     # write songs table to parquet files partitioned by year and artist
     songs_table
 
     # extract columns to create artists table
-    artists_table = 
-    
+    artists_table = None
+
     # write artists table to parquet files
     artists_table
 
 
 def process_log_data(spark, input_data, output_data):
     # get filepath to log data file
-    log_data =
+    log_data = None
 
     # read log data file
-    df = 
-    
-    # filter by actions for song plays
-    df = 
+    df = None
 
-    # extract columns for users table    
-    artists_table = 
-    
+    # filter by actions for song plays
+    df = None
+
+    # extract columns for users table
+    artists_table = None
+
     # write users table to parquet files
     artists_table
 
     # create timestamp column from original timestamp column
     get_timestamp = udf()
-    df = 
-    
+    df = None
+
     # create datetime column from original timestamp column
     get_datetime = udf()
-    df = 
-    
+    df = None
+
     # extract columns to create time table
-    time_table = 
-    
+    time_table = None
+
     # write time table to parquet files partitioned by year and month
     time_table
 
     # read in song data to use for songplays table
-    song_df = 
+    song_df = None
 
-    # extract columns from joined song and log datasets to create songplays table 
-    songplays_table = 
+    # extract columns from joined song and log datasets to create songplays table
+    songplays_table = None
 
     # write songplays table to parquet files partitioned by year and month
     songplays_table
@@ -86,7 +86,7 @@ def main():
     input_data = "s3a://udacity-dend/"
     output_data = ""
     
-    process_song_data(spark, input_data, output_data)    
+    process_song_data(spark, input_data, output_data)
     process_log_data(spark, input_data, output_data)
 
 

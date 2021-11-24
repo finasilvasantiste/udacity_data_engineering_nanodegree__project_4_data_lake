@@ -24,7 +24,8 @@ class EMRCluster:
                 'InstanceCount': 3,
                 'KeepJobFlowAliveWhenNoSteps': True,
                 'TerminationProtected': False,
-                'Ec2SubnetId': self.subnet_id
+                'Ec2SubnetId': self.subnet_id,
+                'Ec2KeyName': self.key_name,
             },
             VisibleToAllUsers=True,
             JobFlowRole='EMR_EC2_DefaultRole',

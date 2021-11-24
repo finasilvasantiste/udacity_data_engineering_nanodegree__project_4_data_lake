@@ -20,3 +20,7 @@ set of dimensional tables.
 and running `pipenv install`.
 - Make sure your python path is set correctly by running:
 ``export PYTHONPATH=$PATHONPATH:`pwd```
+
+## How to run the app
+- Create all aws resources needed to set up redshift by running `pipenv run python3 aws/create_aws_resources.py`.
+  

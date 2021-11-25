@@ -15,12 +15,19 @@ set of dimensional tables.
   Make sure not to use any quotation marks.
   
 ## Dependencies
+*Note: These are the dependencies needed to run the scripts
+to create and delete aws resources. They do not include
+dependencies needed to run `etl.py`. That file is deployed on 
+the AWS EMR cluster which includes a Spark cluster and its dependencies.*
 - Install the pipenv virtual environment by running `pip3 install pipenv`.
 - Set up the virtual environment by navigating to the root folder
 and running `pipenv install`.
 - Make sure your python path is set correctly by running:
 ``export PYTHONPATH=$PATHONPATH:`pwd```
 
+
+
 ## How to run the app
 - Create all aws resources needed to set up the EMR cluster by running `pipenv run python3 aws/create_aws_resources.py`.
 - Delete all aws resources by running `pipenv run python3 aws/delete_aws_resources.py`.
+- Deploy `etl.py` on the EMR cluster (TBD)

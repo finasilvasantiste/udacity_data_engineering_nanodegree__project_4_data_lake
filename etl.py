@@ -43,19 +43,19 @@ def process_song_data(spark, input_data, output_data):
 
 def process_log_data(spark, input_data, output_data):
     # get filepath to log data file
-    log_data = None
+    log_data = 'log_data/*/*/*.json'
 
     # read log data file
-    df = None
+    df = spark.read.json(log_data)
 
     # filter by actions for song plays
-    df = None
+    df = df.filter(col("song").isNotNull()).drop_duplicates()
 
     # extract columns for users table
-    artists_table = None
+    users_table = df['userId', 'firstName', 'lastName', 'level', 'gender'].drop_duplicates()
 
     # write users table to parquet files
-    artists_table
+    users_table
 
     # create timestamp column from original timestamp column
     get_timestamp = udf()
@@ -86,8 +86,8 @@ def main():
     input_data = "s3a://udacity-dend/"
     output_data = ""
     
-    # process_song_data(spark, input_data, output_data)
-    # process_log_data(spark, input_data, output_data)
+    process_song_data(spark, input_data, output_data)
+    process_log_data(spark, input_data, output_data)
 
 
 if __name__ == "__main__":

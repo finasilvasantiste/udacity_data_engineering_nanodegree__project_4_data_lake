@@ -23,8 +23,8 @@ class EMRCluster:
             Name="Boto3 test cluster 5 - no key",
             ReleaseLabel='emr-5.12.0',
             Instances={
-                'MasterInstanceType': 'm4.xlarge',
-                'SlaveInstanceType': 'm4.xlarge',
+                'MasterInstanceType': 'm3.xlarge',
+                'SlaveInstanceType': 'm3.xlarge',
                 'InstanceCount': 3,
                 'KeepJobFlowAliveWhenNoSteps': True,
                 'TerminationProtected': False,
@@ -32,7 +32,12 @@ class EMRCluster:
             },
             VisibleToAllUsers=True,
             JobFlowRole='EMR_EC2_DefaultRole',
-            ServiceRole='EMR_DefaultRole'
+            ServiceRole='EMR_DefaultRole',
+            Applications=[
+                {
+                    'Name': 'Spark'
+                },
+            ],
         )
 
         print('++++ CREATED EMR CLUSTER WITH ID {} ++++'.format(cluster_id['JobFlowId']))

@@ -3,7 +3,8 @@ from datetime import datetime
 import os
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import udf, col
-from pyspark.sql.functions import year, month, dayofmonth, hour, weekofyear, date_format
+from pyspark.sql.types import *
+from datetime import datetime
 
 
 config = configparser.ConfigParser()
@@ -55,11 +56,11 @@ def process_log_data(spark, input_data, output_data):
     users_table = df['userId', 'firstName', 'lastName', 'level', 'gender'].drop_duplicates()
 
     # write users table to parquet files
-    users_table
+    users_table  # TODO
 
     # create timestamp column from original timestamp column
-    get_timestamp = udf()
-    df = None
+    get_timestamp = udf(lambda x: datetime.utcfromtimestamp(int(x) / 1000), TimestampType())
+    df = df.withColumn('timestamp', get_timestamp('ts'))
 
     # create datetime column from original timestamp column
     get_datetime = udf()
@@ -69,7 +70,7 @@ def process_log_data(spark, input_data, output_data):
     time_table = None
 
     # write time table to parquet files partitioned by year and month
-    time_table
+    time_table  # TODO
 
     # read in song data to use for songplays table
     song_df = None

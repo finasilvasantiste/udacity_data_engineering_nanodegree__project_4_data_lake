@@ -5,6 +5,7 @@ from pyspark.sql import SparkSession
 from pyspark.sql.functions import udf, col
 from pyspark.sql.types import *
 from datetime import datetime
+from pyspark.sql.functions import year, month, dayofmonth, hour, weekofyear, date_format, dayofweek
 
 
 config = configparser.ConfigParser()
@@ -33,18 +34,18 @@ def process_song_data(spark, input_data, output_data):
     songs_table = None
 
     # write songs table to parquet files partitioned by year and artist
-    songs_table
+    songs_table  # TODO
 
     # extract columns to create artists table
     artists_table = None
 
     # write artists table to parquet files
-    artists_table
+    artists_table # TODO
 
 
 def process_log_data(spark, input_data, output_data):
     # get filepath to log data file
-    log_data = 'log_data/*/*/*.json'
+    log_data = '{}{}'.format(input_data, 'log_data/*/*/*.json')
 
     # read log data file
     df = spark.read.json(log_data)
@@ -60,14 +61,21 @@ def process_log_data(spark, input_data, output_data):
 
     # create timestamp column from original timestamp column
     get_timestamp = udf(lambda x: datetime.utcfromtimestamp(int(x) / 1000), TimestampType())
-    df = df.withColumn('timestamp', get_timestamp('ts'))
+    df = df.withColumn('start_time', get_timestamp('ts'))
 
-    # create datetime column from original timestamp column
-    get_datetime = udf()
-    df = None
+    # # create datetime column from original timestamp column
+    # get_datetime = udf()
+    # df = None
 
     # extract columns to create time table
-    time_table = None
+    time_table = df.select(['start_time'])
+    time_table = time_table.withColumn('hour', hour('start_time')) \
+        .withColumn('day', dayofmonth('start_time')) \
+        .withColumn('week', weekofyear('start_time')) \
+        .withColumn('month', month('start_time')) \
+        .withColumn('year', year('start_time')) \
+        .withColumn('weekday', dayofweek('start_time'))
+
 
     # write time table to parquet files partitioned by year and month
     time_table  # TODO

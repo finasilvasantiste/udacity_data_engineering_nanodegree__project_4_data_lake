@@ -1,5 +1,5 @@
 # Udacity Data Engineering Nanodegree
-# Project: Data Lake
+# Project 4: Data Lake
 
 # Goal
 
@@ -25,9 +25,8 @@ and running `pipenv install`.
 - Make sure your python path is set correctly by running:
 ``export PYTHONPATH=$PATHONPATH:`pwd```
 
-
-
-## How to run the app
+  
+# How to run the app
 - Create all aws resources needed to set up the EMR cluster by running `pipenv run python3 aws/create_aws_resources.py`.
 - Delete all aws resources by running `pipenv run python3 aws/delete_aws_resources.py`.
 - Deploy `etl.py` on the EMR cluster (TBD)

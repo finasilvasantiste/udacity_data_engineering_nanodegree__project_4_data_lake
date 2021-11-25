@@ -2,3 +2,4 @@
 .idea
 dl.cfg
 __pycache__
+*.pem

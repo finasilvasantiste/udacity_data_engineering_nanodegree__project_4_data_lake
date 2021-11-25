@@ -22,5 +22,5 @@ and running `pipenv install`.
 ``export PYTHONPATH=$PATHONPATH:`pwd```
 
 ## How to run the app
-- Create all aws resources needed to set up redshift by running `pipenv run python3 aws/create_aws_resources.py`.
-  
+- Create all aws resources needed to set up the EMR cluster by running `pipenv run python3 aws/create_aws_resources.py`.
+- Delete all aws resources by running `pipenv run python3 aws/delete_aws_resources.py`.

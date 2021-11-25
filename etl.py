@@ -1,5 +1,4 @@
 import configparser
-from datetime import datetime
 import os
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import udf, col
@@ -63,6 +62,9 @@ def process_log_data(spark, input_data, output_data):
     get_timestamp = udf(lambda x: datetime.utcfromtimestamp(int(x) / 1000), TimestampType())
     df = df.withColumn('start_time', get_timestamp('ts'))
 
+    # NOTE: I don't think creating a separate
+    # datetime column is necessary. We can just use the newly created
+    # start_time column to extract the necessary data.
     # # create datetime column from original timestamp column
     # get_datetime = udf()
     # df = None
@@ -80,7 +82,7 @@ def process_log_data(spark, input_data, output_data):
     time_table.write.parquet('{}time.parquet'.format(output_data), mode='overwrite', partitionBy=['year', 'month'])
 
     # read in song data to use for songplays table
-    song_df = None  # TODO
+    song_df = spark.read.parquet('{}songs.parquet'.format(output_data))
 
     # extract columns from joined song and log datasets to create songplays table
     songplays_table = None  # TODO

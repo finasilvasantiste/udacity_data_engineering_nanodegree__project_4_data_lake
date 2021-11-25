@@ -29,4 +29,4 @@ and running `pipenv install`.
 # How to run the app
 - Create all aws resources needed to set up the EMR cluster by running `pipenv run python3 aws/create_aws_resources.py`.
 - Delete all aws resources by running `pipenv run python3 aws/delete_aws_resources.py`.
-- Deploy `etl.py` on the EMR cluster (TBD)
+- Deploy `etl.py` on the newly created EMR Cluster called `Boto3 Project 4 Cluster`.

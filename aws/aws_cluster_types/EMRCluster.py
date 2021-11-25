@@ -22,7 +22,7 @@ class EMRCluster:
 
         cluster_id = self.emr_client.run_job_flow(
             Name="Boto3 Project 4 Cluster",
-            ReleaseLabel='emr-5.12.0',
+            ReleaseLabel='emr-5.30.1',
             Instances={
                 'MasterInstanceType': 'm4.xlarge',
                 'SlaveInstanceType': 'm4.xlarge',

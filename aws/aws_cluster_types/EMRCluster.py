@@ -20,11 +20,11 @@ class EMRCluster:
         print('++++ CREATING EMR CLUSTER ++++')
 
         cluster_id = self.emr_client.run_job_flow(
-            Name="Boto3 test cluster 5 - no key",
+            Name="Boto3 Project 4 Cluster",
             ReleaseLabel='emr-5.12.0',
             Instances={
-                'MasterInstanceType': 'm3.xlarge',
-                'SlaveInstanceType': 'm3.xlarge',
+                'MasterInstanceType': 'm4.xlarge',
+                'SlaveInstanceType': 'm4.xlarge',
                 'InstanceCount': 3,
                 'KeepJobFlowAliveWhenNoSteps': True,
                 'TerminationProtected': False,
@@ -40,7 +40,7 @@ class EMRCluster:
             ],
         )
 
-        print('++++ CREATED EMR CLUSTER WITH ID {} ++++'.format(cluster_id['JobFlowId']))
+        print('++++ SPINNING UP EMR CLUSTER WITH ID {} ++++'.format(cluster_id['JobFlowId']))
 
     def get_non_terminated_clusters(self):
         """
@@ -57,7 +57,9 @@ class EMRCluster:
                 cluster_id = item['Id']
                 status = item['Status']['State']
                 print('{} with state {}'.format(cluster_id, status))
-                cluster_ids.append(cluster_id)
+
+                if status != 'TERMINATED':
+                    cluster_ids.append(cluster_id)
 
         return cluster_ids
 

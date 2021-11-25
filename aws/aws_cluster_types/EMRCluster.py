@@ -11,6 +11,7 @@ class EMRCluster:
     def __init__(self):
         self.subnet_id = config.get('EMR_CLUSTER', 'SUBNET_NET_ID')
         self.emr_client = AWSClient(client_name='emr').client
+        self.key_name = config.get('EMR_CLUSTER', 'KEY_NAME')
 
     def create_resources(self):
         """
@@ -28,7 +29,8 @@ class EMRCluster:
                 'InstanceCount': 3,
                 'KeepJobFlowAliveWhenNoSteps': True,
                 'TerminationProtected': False,
-                'Ec2SubnetId': self.subnet_id
+                'Ec2SubnetId': self.subnet_id,
+                'Ec2KeyName': self.key_name,
             },
             VisibleToAllUsers=True,
             JobFlowRole='EMR_EC2_DefaultRole',
@@ -37,6 +39,9 @@ class EMRCluster:
                 {
                     'Name': 'Spark'
                 },
+                {
+                    'Name': 'Zeppelin'
+                }
             ],
         )
 

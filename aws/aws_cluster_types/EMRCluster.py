@@ -10,7 +10,6 @@ class EMRCluster:
 
     def __init__(self):
         self.subnet_id = config.get('EMR_CLUSTER', 'SUBNET_NET_ID')
-        self.key_name = config.get('EMR_CLUSTER', 'KEY_NAME')
         self.emr_client = AWSClient(client_name='emr').client
 
     def create_resources(self):

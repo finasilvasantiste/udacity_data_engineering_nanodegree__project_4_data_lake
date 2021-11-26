@@ -15,6 +15,10 @@ os.environ['AWS_SECRET_ACCESS_KEY'] = config.get('AWS_CREDS_ADMIN', 'AWS_SECRET_
 
 
 def create_spark_session():
+    """
+    Returns a spark session.
+    :return: spark session
+    """
     spark = SparkSession \
         .builder \
         .config("spark.jars.packages", "org.apache.hadoop:hadoop-aws:2.7.0") \
@@ -23,6 +27,13 @@ def create_spark_session():
 
 
 def process_song_data(spark, input_data, output_data):
+    """
+    Downloads song data, creates new tables and saves them in S3.
+    :param spark: spark session
+    :param input_data: s3 filepath of log data
+    :param output_data: s3 filepath of new files
+    :return:
+    """
     # get filepath to song data file
     song_data = '{}{}'.format(input_data, 'song_data/*/*/*/*.json')
 
@@ -43,6 +54,13 @@ def process_song_data(spark, input_data, output_data):
 
 
 def process_log_data(spark, input_data, output_data):
+    """
+    Downloads log data, creates new tables and saves them in S3.
+    :param spark: spark session
+    :param input_data: s3 filepath of log data
+    :param output_data: s3 filepath of new files
+    :return:
+    """
     # get filepath to log data file
     log_data = '{}{}'.format(input_data, 'log_data/*/*/*.json')
 
@@ -81,6 +99,21 @@ def process_log_data(spark, input_data, output_data):
     # write time table to parquet files partitioned by year and month
     time_table.write.parquet('{}time.parquet'.format(output_data), mode='overwrite', partitionBy=['year', 'month'])
 
+
+def create_and_save_songplays_table(spark, input_data, output_data):
+    """
+    Creates songplays table and saves it in S3.
+    :param spark: spark session
+    :param input_data: s3 filepath of log data
+    :param output_data: s3 filepath of new files
+    :return:
+    """
+    # get filepath to log data file
+    log_data = '{}{}'.format(input_data, 'log_data/*/*/*.json')
+
+    # read log data file
+    log_df = spark.read.json(log_data)
+
     # read in song data to use for songplays table
     song_df = spark.read.parquet('{}songs.parquet'.format(output_data))
 
@@ -98,6 +131,7 @@ def main():
     
     process_song_data(spark, input_data, output_data)
     process_log_data(spark, input_data, output_data)
+    create_and_save_songplays_table(spark, input_data, output_data)
 
 
 if __name__ == "__main__":

@@ -120,26 +120,33 @@ def create_and_save_songplays_table(spark, input_data, output_data):
     # read in time table data to be able to map ts to start_time
     time_df = spark.read.parquet('{}time.parquet'.format(output_data))
 
+    # read in users table data to be able to map user info
+    users_df = spark.read.parquet('{}users.parquet'.format(output_data))
+
     # create temporary views to be able to use sql to join the data more easily
     log_df.createOrReplaceTempView('log_data_view')
     song_df.createOrReplaceTempView('song_data_view')
     time_df.createOrReplaceTempView('time_data_view')
+    users_df.createOrReplaceTempView('users_data_view')
 
     # extract columns from joined song and log datasets to create songplays table
     songplays_table = spark.sql('''
             SELECT DISTINCT
                 monotonically_increasing_id() as songplay_id,
-                ts.start_time,
-                l.userId AS user_id,
-                l.level AS level,
-                s.song_id AS song_id,
-                s.artist_id AS artist_id,
-                l.sessionId  AS session_id,
-                l.location AS location,
-                l.userAgent AS user_agent
-            FROM log_data_view AS l
-            JOIN song_data_view AS s ON s.title=l.song AND s.artist_name=l.artist 
-            JOIN time_data_view AS t ON l.ts=t.ts;
+                t.start_time,
+                u.userID AS user_id,
+                u.level,
+                s.song_id,
+                s.artist_id,
+                l.sessionID AS session_id,
+                l.location,
+                l.userAgent AS user_agent,
+                t.year,
+                t.month
+            FROM time_data_view AS t
+            JOIN log_data_view AS l on l.ts=t.ts
+            JOIN users_data_view AS u ON u.userId=l.userId
+            JOIN song_data_view AS s ON s.title=l.song
             ''')
 
     # write songplays table to parquet files partitioned by year and month

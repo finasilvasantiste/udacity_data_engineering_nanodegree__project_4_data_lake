@@ -88,7 +88,7 @@ def process_log_data(spark, input_data, output_data):
     # df = None
 
     # extract columns to create time table
-    time_table = df.select(['start_time'])
+    time_table = df.select(['start_time', 'ts'])
     time_table = time_table.withColumn('hour', hour('start_time')) \
         .withColumn('day', dayofmonth('start_time')) \
         .withColumn('week', weekofyear('start_time')) \
@@ -117,11 +117,34 @@ def create_and_save_songplays_table(spark, input_data, output_data):
     # read in song data to use for songplays table
     song_df = spark.read.parquet('{}songs.parquet'.format(output_data))
 
+    # read in time table data to be able to map ts to start_time
+    time_df = spark.read.parquet('{}time.parquet'.format(output_data))
+    time_df.createOrReplaceTempView('time_data_view')
+
+    # create temporary views to be able to use sql to join the data more easily
+    log_df.createOrReplaceTempView('log_data_view')
+    song_df.createOrReplaceTempView('song_data_view')
+    time_df.createOrReplaceTempView('time_data_view')
+
     # extract columns from joined song and log datasets to create songplays table
-    songplays_table = None  # TODO
+    songplays_table = spark.sql('''
+            SELECT DISTINCT
+                monotonically_increasing_id() as songplay_id,
+                ts.start_time,
+                l.userId AS user_id,
+                l.level AS level,
+                s.song_id AS song_id,
+                s.artist_id AS artist_id,
+                l.sessionId  AS session_id,
+                l.location AS location,
+                l.userAgent AS user_agent
+            FROM log_data_view AS l
+            JOIN song_data_view AS s ON s.title=l.song AND s.artist_name=l.artist 
+            JOIN time_data_view AS t ON l.ts=t.ts
+            ''')
 
     # write songplays table to parquet files partitioned by year and month
-    songplays_table  # TODO
+    songplays_table.write.parquet('{}songplays.parquet'.format(output_data), mode='overwrite', partitionBy=['year', 'month'])
 
 
 def main():

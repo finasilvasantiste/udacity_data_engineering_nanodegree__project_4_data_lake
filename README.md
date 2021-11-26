@@ -30,3 +30,10 @@ and running `pipenv install`.
 - Create all aws resources needed to set up the EMR cluster by running `pipenv run python3 aws/create_aws_resources.py`.
 - Delete all aws resources by running `pipenv run python3 aws/delete_aws_resources.py`.
 - Deploy `etl.py` on the newly created EMR Cluster called `Boto3 Project 4 Cluster`.
+
+### Note:
+I've created a jupyter notebook on the EMR Cluster
+to figure out the steps needed to complete the project, since
+the feedback loop was much tighter that way. You can find
+that notebook in this repo (`emr_notebooke_data_lake.ipynb`), but
+please use `etl.py` as project submission.

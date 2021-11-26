@@ -41,6 +41,9 @@ class EMRCluster:
                 },
                 {
                     'Name': 'Zeppelin'
+                },
+                {
+                    'Name': 'Hive'
                 }
             ],
         )

@@ -68,7 +68,7 @@ def process_log_data(spark, input_data, output_data):
     df = spark.read.json(log_data)
 
     # filter by actions for song plays
-    df = df.filter(col("song").isNotNull()).drop_duplicates()
+    df = df.filter(col("song").isNotNull())
 
     # extract columns for users table
     users_table = df['userId', 'firstName', 'lastName', 'level', 'gender'].drop_duplicates()
@@ -139,7 +139,7 @@ def create_and_save_songplays_table(spark, input_data, output_data):
                 l.userAgent AS user_agent
             FROM log_data_view AS l
             JOIN song_data_view AS s ON s.title=l.song AND s.artist_name=l.artist 
-            JOIN time_data_view AS t ON l.ts=t.ts
+            JOIN time_data_view AS t ON l.ts=t.ts;
             ''')
 
     # write songplays table to parquet files partitioned by year and month

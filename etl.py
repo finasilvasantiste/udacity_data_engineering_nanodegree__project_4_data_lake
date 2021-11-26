@@ -119,7 +119,6 @@ def create_and_save_songplays_table(spark, input_data, output_data):
 
     # read in time table data to be able to map ts to start_time
     time_df = spark.read.parquet('{}time.parquet'.format(output_data))
-    time_df.createOrReplaceTempView('time_data_view')
 
     # create temporary views to be able to use sql to join the data more easily
     log_df.createOrReplaceTempView('log_data_view')
